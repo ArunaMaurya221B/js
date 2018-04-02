@@ -32,6 +32,7 @@ var brickHeight = 20;
 var brickPadding = 10; //space between two bricks
 var brickOffsetTop = 30;//space with the top margin
 var brickOffsetLeft = 30;//margin from the left side
+var score = 0;
 // used to paint the bricks on top
 var bricks = [];
 for(c=0; c<brickColumnCount; c++) {
@@ -101,6 +102,11 @@ function collisionDetection(){
             if(x > b.x && b.x+brickWidth && y>b.y && y<b.y+brickHeight){
                 dy = -dy;
                 b.status=0;
+                score++;
+                if(score == brickRowCount*brickColumnCount){
+                    alert("YOU WIN!!")
+                    document.location.reload();
+                }
             }
             }
         }
@@ -113,6 +119,7 @@ function draw() {
     drawBall();
     drawPaddle();
     collisionDetection();
+    drawScore();
     
     if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
         dx = -dx;
@@ -141,6 +148,12 @@ function draw() {
     
     x += dx;
     y += dy;
+}
+
+function drawScore(){
+    ctx.font ="14px Arial";
+    ctx.fillStyle = "blue";
+    ctx.fillText("Score: "+score, 8, 20);
 }
 
 setInterval(draw, 10);
